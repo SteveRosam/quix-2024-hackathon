@@ -1,4 +1,3 @@
-from csv_source import CsvSource
 from quixstreams import Application
 import os
 import time
