@@ -1,0 +1,1 @@
+# quix-2024-hackathon
