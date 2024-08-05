@@ -39,7 +39,7 @@ def fluctuate(value, min_value=0, max_value=30):
     new_value = value + fluctuation
     return max(min_value, min(max_value, new_value))
 
-def generate_weather_data():
+def generate_weather_data(producer):
     location_weather_data = []
 
     for index, location in enumerate(locations):
@@ -53,13 +53,20 @@ def generate_weather_data():
         weather_data[index]["current_speed"] = new_current_speed
         weather_data[index]["forecast"] = new_forecast
 
-        location_weather_data.append({
+        data = {
             "name": location["name"],
             "latitude": location["latitude"],
             "longitude": location["longitude"],
             "current_speed": new_current_speed,
             "forecast": new_forecast
-        })
+        }
+
+        json_data = json.dumps(data)
+        timestamp_nanos = int(time.time() * 1e9)  # Convert current time to nanoseconds
+        producer.produce(topic_name, value=json_data, key='wind', timestamp=timestamp_nanos)
+        producer.flush()
+
+        location_weather_data.append(data)
 
         print(f"Location: {location['name']}")
         print(f"Coordinates: ({location['latitude']}, {location['longitude']})")
@@ -76,11 +83,8 @@ output_topic = app.topic(topic_name)
 def main():
     while True:
         with app.get_producer() as p:
-            data = generate_weather_data()
-            json_data = json.dumps(data)
-            print(json_data)
-            timestamp_nanos = int(time.time() * 1e9)  # Convert current time to nanoseconds
-            p.produce(topic_name, value=json_data, key='wind', timestamp=timestamp_nanos)
+            generate_weather_data(p)
+            # print(json_data)
             time.sleep(5)
 
 
