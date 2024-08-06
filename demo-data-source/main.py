@@ -17,6 +17,8 @@ topic_name = os.getenv("output", "wind")
 if topic_name == "":
     raise ValueError("The 'output' environment variable is required. This is the output topic that data will be published to.")
 
+output_topic = app.topic(topic_name)
+
 # Define 5 different coastal locations in the southeast of England
 locations = [
     {"name": "Dover", "latitude": 51.1290, "longitude": 1.3080},
@@ -64,7 +66,7 @@ def generate_weather_data(producer):
         print(json_data)
         timestamp_nanos = int(time.time() * 1e9)  # Convert current time to nanoseconds
         
-        producer.produce(topic_name, value=json_data, key='wind', timestamp=timestamp_nanos)
+        producer.produce(output_topic.name, value=json_data, key='wind', timestamp=timestamp_nanos)
         producer.flush()
 
         location_weather_data.append(data)
