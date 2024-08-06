@@ -61,7 +61,9 @@ def generate_weather_data(producer):
         }
 
         json_data = json.dumps(data)
+        print(json_data)
         timestamp_nanos = int(time.time() * 1e9)  # Convert current time to nanoseconds
+        
         producer.produce(topic_name, value=json_data, key='wind', timestamp=timestamp_nanos)
         producer.flush()
 
@@ -84,7 +86,7 @@ def main():
         with app.get_producer() as p:
             generate_weather_data(p)
             # print(json_data)
-            time.sleep(5)
+            time.sleep(30)
 
 
 if __name__ == "__main__": 

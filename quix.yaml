@@ -19,7 +19,73 @@ deployments:
         inputType: OutputTopic
         required: false
         value: wind-speed
+  - name: alert-generation
+    application: alert-generation
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 800
+      replicas: 1
+    variables:
+      - name: input
+        inputType: InputTopic
+        required: false
+        value: wind-speed
+      - name: SLACK_WEBHOOK_URL
+        inputType: FreeText
+        required: false
+        value: ''
+      - name: slack_messages
+        inputType: OutputTopic
+        required: false
+        value: slack_messages
+      - name: telegram_messages
+        inputType: OutputTopic
+        required: false
+        value: telegram_messages
+      - name: output
+        inputType: OutputTopic
+        required: false
+        value: alerts
+  - name: slack-destination
+    application: slack-destination
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 800
+      replicas: 1
+    variables:
+      - name: input
+        inputType: InputTopic
+        required: false
+        value: slack_messages
+      - name: webhook_url
+        inputType: FreeText
+        required: false
+        value: abc
+  - name: telegram_destination
+    application: telegram_destination
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 800
+      replicas: 1
+    variables:
+      - name: input
+        inputType: InputTopic
+        required: false
+        value: telegram_messages
+      - name: webhook_url
+        inputType: FreeText
+        required: false
+        value: abc
 
 # This section describes the Topics of the data pipeline
 topics:
   - name: wind-speed
+  - name: slack_messages
+  - name: telegram_messages
+  - name: alerts

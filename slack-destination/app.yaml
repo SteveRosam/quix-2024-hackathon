@@ -1,0 +1,14 @@
+name: slack-destination
+language: Python
+variables:
+  - name: input
+    inputType: InputTopic
+    defaultValue: slack_messages
+    required: false
+  - name: webhook_url
+    inputType: FreeText
+    defaultValue: abc
+    required: false
+dockerfile: dockerfile
+runEntryPoint: main.py
+defaultFile: quix_function.py

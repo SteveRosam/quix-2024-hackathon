@@ -1,0 +1,26 @@
+name: alert-generation
+language: Python
+variables:
+  - name: input
+    inputType: InputTopic
+    defaultValue: wind-speed
+    required: false
+  - name: output
+    inputType: OutputTopic
+    defaultValue: alerts
+    required: false
+  - name: slack_messages
+    inputType: OutputTopic
+    defaultValue: slack_messages
+    required: false
+  - name: telegram_messages
+    inputType: OutputTopic
+    defaultValue: telegram_messages
+    required: false
+  - name: SLACK_WEBHOOK_URL
+    inputType: FreeText
+    defaultValue: ''
+    required: false
+dockerfile: dockerfile
+runEntryPoint: main.py
+defaultFile: main.py
