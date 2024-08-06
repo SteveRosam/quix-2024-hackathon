@@ -11,8 +11,8 @@ load_dotenv()
 app = Application(consumer_group="transformation-v1", auto_offset_reset="earliest")
 
 input_topic = app.topic(os.environ["input"])
-telegram_output_topic = app.topic(os.environ["telegram_output"])
-slack_output_topic = app.topic(os.environ["slack_output"])
+telegram_output_topic = app.topic(os.environ["telegram_messages"])
+slack_output_topic = app.topic(os.environ["slack_messages"])
 
 sdf = app.dataframe(input_topic)
 
