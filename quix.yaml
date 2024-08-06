@@ -32,10 +32,10 @@ deployments:
         inputType: InputTopic
         required: false
         value: wind-speed
-      - name: SLACK_WEBHOOK_URL
-        inputType: FreeText
+      - name: output
+        inputType: OutputTopic
         required: false
-        value: ''
+        value: alerts
       - name: slack_messages
         inputType: OutputTopic
         required: false
@@ -44,10 +44,10 @@ deployments:
         inputType: OutputTopic
         required: false
         value: telegram_messages
-      - name: output
-        inputType: OutputTopic
+      - name: SLACK_WEBHOOK_URL
+        inputType: FreeText
         required: false
-        value: alerts
+        value: ''
   - name: slack-destination
     application: slack-destination
     version: latest
